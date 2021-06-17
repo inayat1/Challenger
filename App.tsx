@@ -1,31 +1,3 @@
-// import React from 'react';
-// import {Text} from 'react-native';
-// import { Provider } from 'react-redux';
-// import store from './src/store';
-// import HomeScreen from './src/components/pages/home';
-// import Login from './src/components/pages/Login';
-// import Signup from './src/components/pages/Signup';
-// import Otp from './src/components/pages/Otp';
-// import {NavigationContainer} from "@react-navigation/native";
-// import {createStackNavigator} from "@react-navigation/stack";
-
-// const Stack = createStackNavigator();
-
-// const App = () => {
-//   return (
-//     <Provider store={store}>
-//         <NavigationContainer>
-//             <Stack.Navigator initialRouteName="Home">
-//                 <Stack.Screen name="Home" component={HomeScreen}/>
-//                 <Stack.Screen name="Login" component={Login}/>
-//                 <Stack.Screen name="Signup" component={Signup}/>
-//                 <Stack.Screen name="Otp" component={Otp}/>
-//             </Stack.Navigator>
-//         </NavigationContainer>
-//       </Provider>
-//   );
-// };
-
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, FlatList, PermissionsAndroid } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -61,24 +33,11 @@ async requestExternalStoreageRead() {
 }
 
 getPhotos = async () => {
-    // CameraRoll.getPhotos(
-    //     {
-    //     first: 15, // to get only first storage
-    //     assetType: 'Photos', // to get only photos
-    //     })
-    //     .then(r => {
-    //     var photos = r.edges.map((asset) => {
-    //     return {...asset.node.image};
-    //     });
-    //     this.setState({ data:photos})
-    // });
-
     if (await this.requestExternalStoreageRead()){
         console.log('called');
         CameraRoll.getPhotos({
-            first: 15,
-            assetType: 'Videos',
-            include: ["imageSize"]
+            first: 20,
+            assetType: 'All'
         })
         .then((r) => {
             console.log(r.edges[0]);
@@ -96,15 +55,15 @@ getPhotos = async () => {
         });
     }
 }
-generateFrames = (uri, duration) => {
-    const thumb = `-i ${uri} -vf fps=${10/duration},scale=90:-1 -preset veryfast ${uri}_thumb_%01d.jpg`;
-    RNFFmpeg.execute(thumb).then(_ => {
-        console.log(`${uri}_thumb_`);
-        this.setState({
-            thumbnail: `${uri}_thumb_`
-        })
-    });
-}
+// generateFrames = (uri, duration) => {
+//     const thumb = `-i ${uri} -vf fps=${10/duration},scale=90:-1 -preset veryfast ${uri}_thumb_%01d.jpg`;
+//     RNFFmpeg.execute(thumb).then(_ => {
+//         console.log(`${uri}_thumb_`);
+//         this.setState({
+//             thumbnail: `${uri}_thumb_`
+//         })
+//     });
+// }
 renderItem = ({item}) => {
     return (
         <View style={{padding:5}}>
@@ -121,16 +80,15 @@ render() {
             flexDirection: 'row',
             justifyContent: 'center'
         }}>
-            <Text>Images</Text>
             <FlatList
             data={this.state.data}
             numColumns={3}
             renderItem={this.renderItem}
             />
-            {this.state.thumbnail ? 
+            {/* {this.state.thumbnail ? 
                 <Image style={{height:imageHeight, width:imageWidth - 10}} source={{uri:`${this.state.thumbnail}1`}}/>
                 : null
-            }
+            } */}
         </View>
         )
     }
