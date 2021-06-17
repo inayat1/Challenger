@@ -1,7 +1,9 @@
-import {StyleSheet, View, Button, TextInput} from "react-native";
+import {StyleSheet, View, Text, TextInput} from "react-native";
 import React, {useState, ReactElement} from "react";
 import makeApiRequest, { ApiRequestType, Method } from '../../api/ApiUtil';
 import { Hostname, UrlPath } from '../../api/UrlConstants';
+import Button from "react-native-button";
+import { AppStyles } from "../../styles/AppStyles";
 
 
 // const mapDispatcherToProps = (dispatch: any) => {
@@ -89,43 +91,99 @@ const Login: React.SFC<LoginProps> = ({navigation}): ReactElement => {
 
     return (
         <View style={styles.container}>
-            <TextInput placeholder="Contact"
-                       style={styles.textContainer}
-                       onChangeText={contactInputHandler}
-                       value={enteredContact}
-                       maxLength={MAX_LENGTH}
-                       keyboardType='numeric'
+          <Text style={[styles.title, styles.leftTitle]}>Sign In</Text>
+          <View style={styles.InputContainer}>
+            <TextInput
+              style={styles.body}
+              placeholder="Contact"
+              onChangeText={contactInputHandler}
+              value={enteredContact}
+              maxLength={MAX_LENGTH}
+              keyboardType='numeric'
+              placeholderTextColor={AppStyles.color.grey}
+              underlineColorAndroid="transparent"
             />
-            <View style={styles.buttonContainer}>
-                <Button title="Login"
-                        color='red'
-                        disabled={disableButton}
-                        onPress={onLogin}
-                />
-            </View>
+          </View>
+          <Button
+            containerStyle={styles.loginContainer}
+            style={styles.loginText}
+            onPress={onLogin}
+            disabled={disableButton}
+          >
+            Log in
+          </Button>
         </View>
-    );
+      );
 }
 
 export default Login;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 10
+      flex: 1,
+      alignItems: "center"
     },
-    buttonContainer: {
-        margin: 5,
-        width: "80%",
+    or: {
+      fontFamily: AppStyles.fontName.main,
+      color: "black",
+      marginTop: 40,
+      marginBottom: 10
     },
-    textContainer: {
-        borderColor: 'black',
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        width: '80%',
-        textAlign: 'center'
+    title: {
+      fontSize: AppStyles.fontSize.title,
+      fontWeight: "bold",
+      color: AppStyles.color.tint,
+      marginTop: 20,
+      marginBottom: 20
+    },
+    leftTitle: {
+      alignSelf: "stretch",
+      textAlign: "left",
+      marginLeft: 20
+    },
+    content: {
+      paddingLeft: 50,
+      paddingRight: 50,
+      textAlign: "center",
+      fontSize: AppStyles.fontSize.content,
+      color: AppStyles.color.text
+    },
+    loginContainer: {
+      width: AppStyles.buttonWidth.main,
+      backgroundColor: AppStyles.color.tint,
+      borderRadius: AppStyles.borderRadius.main,
+      padding: 10,
+      marginTop: 30
+    },
+    loginText: {
+      color: AppStyles.color.white
+    },
+    placeholder: {
+      fontFamily: AppStyles.fontName.text,
+      color: "red"
+    },
+    InputContainer: {
+      width: AppStyles.textInputWidth.main,
+      marginTop: 30,
+      borderWidth: 1,
+      borderStyle: "solid",
+      borderColor: AppStyles.color.grey,
+      borderRadius: AppStyles.borderRadius.main
+    },
+    body: {
+      height: 42,
+      paddingLeft: 20,
+      paddingRight: 20,
+      color: AppStyles.color.text
+    },
+    facebookContainer: {
+      width: AppStyles.buttonWidth.main,
+      backgroundColor: AppStyles.color.facebook,
+      borderRadius: AppStyles.borderRadius.main,
+      padding: 10,
+      marginTop: 30
+    },
+    facebookText: {
+      color: AppStyles.color.white
     }
-});
+  });
